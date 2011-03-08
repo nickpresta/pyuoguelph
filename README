@@ -6,7 +6,7 @@ Here is an example of using the library:
 
 import courseparser
 cp = courseparser.CourseParser()
-cp.get_course("current", "cis2750")
+cp.get_course(2011, "cis2750")
 
 This will fetch data from the specified academic calendar and return a
 dictionary containing the following information:
