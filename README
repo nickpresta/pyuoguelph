@@ -1,0 +1,26 @@
+This library is to be used for parsing, searching, and scraping the uoguelph
+academic calendar:
+    (http://www.uoguelph.ca/registrar/calendars/index.cfm?undergraduate)
+
+Here is an example of using the library:
+
+import courseparser
+cp = courseparser.CourseParser()
+cp.get_course("current", "cis2750")
+
+This will fetch data from the specified academic calendar and return a
+dictionary containing the following information:
+
+* Course Code
+* Course Number
+* Course Department
+* Course Description
+* Course Restrictions
+* Course Prequiesits
+* Course Title
+* Course Semesters Offered
+* Course Credit Value
+
+** TODO **
+1. Grab all courses available for a specific program
+2. Grab all courses available for a specific year
