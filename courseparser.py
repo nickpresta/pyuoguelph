@@ -10,7 +10,7 @@ try:
     from BeautifulSoup import BeautifulSoup
 except ImportError:
     import sys
-    print >> sys.stderr, "You must have Beautiful Soup installed. Exiting..."
+    print("You must have Beautiful Soup installed. Exiting...")
     sys.exit(1)
 
 __author__ = "Nicholas Presta"
@@ -52,8 +52,9 @@ class CourseParser(object):
                 raw_data[1].replace("\n", ""))
 
         try:
-            restrictions = soup.find(attrs={'class': 'restrictions'}).findChild('td',
-                attrs={'class': 'text'}).text
+            restrictions = soup.find(
+                    attrs={'class': 'restrictions'}).findChild('td',
+                            attrs={'class': 'text'}).text
             info['course_restrictions'] = restrictions.replace("*", "")
         except AttributeError:
             # Course has no restrictions
@@ -100,4 +101,4 @@ class CourseParser(object):
 if __name__ == '__main__':
     import sys
     cp = CourseParser()
-    print cp.get_course(sys.argv[1], sys.argv[2])
+    print(cp.get_course(sys.argv[1], sys.argv[2]))
