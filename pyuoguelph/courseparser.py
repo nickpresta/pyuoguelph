@@ -30,14 +30,23 @@ class CourseParser(object):
         1. Grab all courses available for a specific year
         2. Grab all courses available for a specific program in a specific year """
 
-    # This is the URL for a course calendar
-    DESC_URL = "http://www.uoguelph.ca/registrar/calendars/undergraduate/%s/courses/%s.shtml"
+    CALENDAR_TYPES = ('undergraduate', 'graduate')
+    UNDERGRADUATE_CALENDAR = 'undergraduate'
+    GRADUATE_CALENDAR = 'graduate'
 
-    def get_course(self, year, code):
+    def __init__(self):
+        """ Assigns the default settings to the local settings so they can be
+            easily overridden at runtime """
+        # This is the URL for a course calendar
+        # Use %s as placeholders for dynamic information
+        # In this case, the %s are for the calendar type, year and course code
+        self.DESC_URL = "http://www.uoguelph.ca/registrar/calendars/%s/%s/courses/%s.shtml"
+
+    def get_course(self, year, code, calendar_type=UNDERGRADUATE_CALENDAR):
         """ Returns the course description, the semester it was offered, the
             credit value, and the restrictions (if any) """
         year = self._build_year_string(year)
-        source = self._fetch_source(self._build_url(year, code))
+        source = self._fetch_source(self._build_url(year, code, calendar_type))
         soup = BeautifulSoup(source)
         raw_data = [tags.text for tags in soup.findAll(attrs={'colspan': '2'})]
 
@@ -84,10 +93,10 @@ class CourseParser(object):
         else:
             return "%s-%s" % (year, str(int(year) + 1))
 
-    def _build_url(self, year, code):
+    def _build_url(self, year, code, calendar_type):
         """ Returns the full URL based on the uoguelph.ca domain, year, and
             course code """
-        return self.DESC_URL % (year, code)
+        return self.DESC_URL % (calendar_type, year, code.lower())
 
     def _fetch_source(self, url):
         """ Fetches the source code from the URL given """
@@ -101,4 +110,8 @@ class CourseParser(object):
 if __name__ == '__main__':
     import sys
     cp = CourseParser()
-    print(cp.get_course(sys.argv[1], sys.argv[2]))
+    if len(sys.argv) == 4:
+        calendar = sys.argv[3]
+    else:
+        calendar = CourseParser.UNDERGRADUATE_CALENDAR
+    print(cp.get_course(sys.argv[1], sys.argv[2], calendar))
