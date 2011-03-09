@@ -6,9 +6,9 @@ Here is an example of using the library:
 
 import courseparser
 cp = courseparser.CourseParser()
-cp.get_course(2011, "cis2750")
+cp.get_course(2011, "cis2750", CourseParser.UNDERGRADUATE_CALENDAR, True)
 
-This will fetch data from the specified academic calendar and return a
+This will fetch a fresh copy from the undergraduate academic calendar and return a
 dictionary containing the following information:
 
 * Course Code
@@ -20,6 +20,18 @@ dictionary containing the following information:
 * Course Title
 * Course Semesters Offered
 * Course Credit Value
+
+You can further specify which academic calendar you want to fetch data from.
+Currently supported are:
+
+* Undergraduate (UNDERGRADUATE_CALENDAR)
+* Graduate (GRADUATE_CALENDAR)
+* Associate Diploma (DIPLOMA_CALENDAR)
+* Guelph Humber (GUELPHHUMBER_CALENDAR)
+
+There also exists a caching mechanism so you don't hit the server every time.
+The last parameter in get_course (True/False) specifies whether or not to fetch
+a fresh copy (defaults to False).
 
 ** TODO **
 1. Grab all courses available for a specific program
