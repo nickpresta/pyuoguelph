@@ -30,9 +30,11 @@ class CourseParser(object):
         1. Grab all courses available for a specific year
         2. Grab all courses available for a specific program in a specific year """
 
-    CALENDAR_TYPES = ('undergraduate', 'graduate')
+    CALENDAR_TYPES = ('undergraduate', 'graduate', 'diploma', 'guelphhumber')
     UNDERGRADUATE_CALENDAR = 'undergraduate'
     GRADUATE_CALENDAR = 'graduate'
+    DIPLOMA_CALENDAR = 'diploma'
+    GUELPHHUMBER_CALENDAR = 'guelphhumber'
 
     def __init__(self):
         """ Assigns the default settings to the local settings so they can be
@@ -48,22 +50,25 @@ class CourseParser(object):
         year = self._build_year_string(year)
         source = self._fetch_source(self._build_url(year, code, calendar_type))
         soup = BeautifulSoup(source)
-        raw_data = [tags.text for tags in soup.findAll(attrs={'colspan': '2'})]
 
         info = {}
 
-        course_parts = raw_data[0].split()
+        raw_title = soup.find(attrs={'class': 'title'}).text
+        course_parts = raw_title.split()
         info['course_code'] = course_parts[0].replace("*", "")
         info['course_number'] = course_parts[0].split("*")[1]
         info['course_department'] = course_parts[0].split("*")[0]
+        info['course_title'] = ' '.join(course_parts[1:-3])
+        info['course_semesters'] = course_parts[-3]
+        info['course_credit'] = course_parts[-1].replace("[", "").replace("]", "")
 
+        raw_desc = soup.find(attrs={'class': 'description'}).text
         info['course_description'] = re.sub("\s{2,}", " ",
-                raw_data[1].replace("\n", ""))
+                raw_desc.replace("\n", ""))
 
         try:
             restrictions = soup.find(
-                    attrs={'class': 'restrictions'}).findChild('td',
-                            attrs={'class': 'text'}).text
+                    attrs={'class': 'restrictions'}).findChild('td').text
             info['course_restrictions'] = restrictions.replace("*", "")
         except AttributeError:
             # Course has no restrictions
@@ -76,11 +81,6 @@ class CourseParser(object):
         except AttributeError:
             # Course has no prereqs
             info['course_prereqs'] = ""
-
-        course_parts = raw_data[0].split()
-        info['course_title'] = ' '.join(course_parts[1:-3])
-        info['course_semesters'] = course_parts[-3]
-        info['course_credit'] = course_parts[-1].replace("[", "").replace("]", "")
 
         return info
 
@@ -100,7 +100,10 @@ class CourseParser(object):
 
     def _fetch_source(self, url):
         """ Fetches the source code from the URL given """
-        site = urllib2.urlopen(url)
+        try:
+            site = urllib2.urlopen(url)
+        except urllib2.HTTPError:
+            print("HTTP Error. Try again later")
         if url != site.geturl():
             raise Exception("Course/year not found")
         data = site.read()
