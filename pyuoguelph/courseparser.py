@@ -13,6 +13,15 @@ except ImportError:
     print("You must have Beautiful Soup installed. Exiting...")
     sys.exit(1)
 
+try:
+    from shove import Shove
+except ImportError:
+    import sys
+    print("You must have Shove installed. Exiting...")
+    sys.exit(1)
+
+import settings
+
 __author__ = "Nicholas Presta"
 __copyright__ = "Copyright 2011, The Pyuoguelph project"
 __license__ = "GPL"
@@ -36,17 +45,24 @@ class CourseParser(object):
     DIPLOMA_CALENDAR = 'diploma'
     GUELPHHUMBER_CALENDAR = 'guelphhumber'
 
-    def __init__(self):
+    def __init__(self, store=settings.store, cache=settings.cache):
         """ Assigns the default settings to the local settings so they can be
             easily overridden at runtime """
         # This is the URL for a course calendar
         # Use %s as placeholders for dynamic information
         # In this case, the %s are for the calendar type, year and course code
         self.DESC_URL = "http://www.uoguelph.ca/registrar/calendars/%s/%s/courses/%s.shtml"
+        self.store = Shove(store, cache)
 
-    def get_course(self, year, code, calendar_type=UNDERGRADUATE_CALENDAR):
+    def get_course(self, year, code, calendar_type=UNDERGRADUATE_CALENDAR,
+            fresh=False):
         """ Returns the course description, the semester it was offered, the
             credit value, and the restrictions (if any) """
+        key = self._build_key(year, code, calendar_type)
+        if key in self.store and fresh:
+            print("returning now")
+            return self.store[key]
+
         source = self._fetch_source(self._build_url(year, code, calendar_type))
         soup = BeautifulSoup(source)
 
@@ -81,7 +97,14 @@ class CourseParser(object):
             # Course has no prereqs
             info['course_prereqs'] = ""
 
+        # store this dict
+        self.store[key] = info
+
         return info
+
+    def _build_key(self, year, code, calendar_type):
+        """ Returns a (hopefully) unique key for our store """
+        return str(year) + str(code) + str(calendar_type)
 
     def _build_year_string(self, year):
         """ Returns the year in a format that can be used directly in the URL
@@ -111,10 +134,9 @@ class CourseParser(object):
         return data
 
 if __name__ == '__main__':
-    import sys
+    # no checks, just input all:
+    # e.g. 2011 cis1910 undergraduate f
     cp = CourseParser()
-    if len(sys.argv) == 4:
-        calendar = sys.argv[3]
-    else:
-        calendar = CourseParser.UNDERGRADUATE_CALENDAR
-    print(cp.get_course(sys.argv[1], sys.argv[2], calendar))
+    while True:
+        inp = raw_input(">>> (Year, Code, Calendar, Fresh): ").split()
+        print(cp.get_course(inp[0], inp[1], inp[2], inp[3]))
