@@ -47,7 +47,6 @@ class CourseParser(object):
     def get_course(self, year, code, calendar_type=UNDERGRADUATE_CALENDAR):
         """ Returns the course description, the semester it was offered, the
             credit value, and the restrictions (if any) """
-        year = self._build_year_string(year)
         source = self._fetch_source(self._build_url(year, code, calendar_type))
         soup = BeautifulSoup(source)
 
@@ -88,7 +87,7 @@ class CourseParser(object):
         """ Returns the year in a format that can be used directly in the URL
             The format is either 'current' for the current year, or
             the 'year - year+1' """
-        if year == str(datetime.now().year):
+        if int(year) == int(datetime.now().year):
             return 'current'
         else:
             return "%s-%s" % (year, str(int(year) + 1))
@@ -96,6 +95,7 @@ class CourseParser(object):
     def _build_url(self, year, code, calendar_type):
         """ Returns the full URL based on the uoguelph.ca domain, year, and
             course code """
+        year = self._build_year_string(year)
         return self.DESC_URL % (calendar_type, year, code.lower())
 
     def _fetch_source(self, url):
@@ -105,7 +105,7 @@ class CourseParser(object):
         except urllib2.HTTPError:
             print("HTTP Error. Try again later")
         if url != site.geturl():
-            raise Exception("Course/year not found")
+            raise Exception("Course/year not found at %s" % url)
         data = site.read()
         site.close()
         return data
