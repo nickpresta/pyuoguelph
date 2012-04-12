@@ -12,5 +12,5 @@ setup(
     maintainer="Nick Presta",
     maintainer_email="nick@nickpresta.ca",
     url="https://github.com/NickPresta/pyuoguelph",
-    py_modules=['courseparser']
+    packages=['pyuoguelph', 'pyuoguelph.tests']
     )
