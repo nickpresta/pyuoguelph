@@ -73,11 +73,23 @@ class CourseParser(object):
 
         uri = self._build_url(year, code, calendar_type)
         source = self._fetch_source(uri)
+        return CourseParser.parse_source(source)
+
+    @staticmethod
+    def parse_source(source):
+        """Returns the course description for a given course.
+
+        Returns:
+            Various pieces of information about a course.
+            Keys are always present, regardless of the data existing or not.
+
+        Arguments:
+            The HTML source for a given course.
+        """
+
         soup = BeautifulSoup(source)
 
         info = {}
-
-        info['course_uri'] = uri
 
         raw_title = soup.find(attrs={'class': 'title'}).text
         course_parts = raw_title.split()
