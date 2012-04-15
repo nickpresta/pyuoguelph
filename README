@@ -1,14 +1,13 @@
 This library is to be used for parsing, searching, and scraping the uoguelph
-academic calendar:
-    (http://www.uoguelph.ca/registrar/calendars/index.cfm?undergraduate)
+academic calendar as well as Student Affairs events.
 
 Here is an example of using the library:
 
-import courseparser
-cp = courseparser.CourseParser()
-cp.get_course(2011, "cis2750", CourseParser.UNDERGRADUATE_CALENDAR)
+    from pyuoguelph import courseparser
+    cp = courseparser.CourseParser()
+    cp.get_course(2011, "cis2750", CourseParser.UNDERGRADUATE_CALENDAR)
 
-This will fetch a fresh copy from the undergraduate academic calendar and return a
+This will fetch CIS2750 from the undergraduate academic calendar and return a
 dictionary containing the following information:
 
 * Course Code
@@ -29,10 +28,24 @@ Currently supported are:
 * Associate Diploma (DIPLOMA_CALENDAR)
 * Guelph Humber (GUELPHHUMBER_CALENDAR)
 
-There also exists a caching mechanism so you don't hit the server every time.
-The last parameter in get_course (True/False) specifies whether or not to fetch
-a fresh copy (defaults to False).
+To fetch event details:
 
-** TODO **
-1. Grab all courses available for a specific program
-2. Grab all courses available for a specific year
+    from pyuoguelph import eventparser
+    ep = eventparser.EventParser()
+    ep.get_event('https://www.uoguelph.ca/studentaffairs/reg/index.cfm?act=view&event_id=5736')
+
+This will fetch the event details and return a dictionary containing:
+
+* Description
+* Title
+* Organization
+* Eligibility
+* Format
+* Instructors
+* Topic
+* Contact
+* Location
+* Maximum Attendance
+* Time
+* Date
+

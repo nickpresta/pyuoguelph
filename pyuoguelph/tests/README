@@ -1,0 +1,2 @@
+These tests should be fixed to load the HTML source directory (from this folder) and then parse it.
+This will remove the dependency on the network connection.

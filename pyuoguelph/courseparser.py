@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+#-*- coding: utf-8 -*-
 
-""" This script is used for parsing course data from the uoguelph.ca website """
+"""This script is used for parsing course data from the uoguelph.ca website"""
 
 import urllib2
 from datetime import datetime
@@ -16,7 +17,7 @@ except ImportError:
 __author__ = "Nicholas Presta"
 __copyright__ = "Copyright 2011, The Pyuoguelph project"
 __license__ = "GPL"
-__version__ = "1.0.0"
+__version__ = "0.0.2"
 __maintainer__ = "Nicholas Presta"
 __email__ = "nick@nickpresta.ca"
 
@@ -71,8 +72,8 @@ class CourseParser(object):
                 calendar year or type.
         """
 
-        uri = self._build_url(year, code, calendar_type)
-        source = self._fetch_source(uri)
+        url = self._build_url(year, code, calendar_type)
+        source = CourseParser.fetch_source(url)
         return CourseParser.parse_source(source)
 
     @staticmethod
@@ -152,7 +153,7 @@ class CourseParser(object):
         return self.desc_url % (calendar_type, year, code.lower())
 
     @staticmethod
-    def _fetch_source(url):
+    def fetch_source(url):
         """Fetches the source code from the given URL.
 
         Returns: Data as a string from the course page.
