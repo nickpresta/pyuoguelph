@@ -3,7 +3,7 @@ import os
 import unittest
 from datetime import datetime
 
-import courseparser
+from pyuoguelph import courseparser
 from courseparser import CourseParser
 from courseparser import CourseNotFoundException
 from courseparser import CourseParserConnectionException
