@@ -81,7 +81,8 @@ class EventParser(object):
 
     @staticmethod
     def _format_key(key):
-        formatted = re.sub('[^\w ]', '', key).lower().strip()
+        key = key.replace('(', '').replace(')', '')
+        formatted = re.sub('[^\w]', ' ', key).lower().strip()
         return re.sub('\s{1,}', '_', formatted)
 
     @staticmethod
