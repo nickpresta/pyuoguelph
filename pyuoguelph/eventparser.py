@@ -107,7 +107,7 @@ class EventParser(object):
         except (urllib2.HTTPError, IOError):
             raise EventParserConnectionException(
                     "Could not fetch event information at %s" % url)
-        if url != site.geturl():
+        if 'event_id' not in site.geturl():
             raise EventNotFoundException("Event not found at %s" % url)
         data = site.read()
         site.close()
