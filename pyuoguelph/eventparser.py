@@ -77,6 +77,15 @@ class EventParser(object):
             info[EventParser._format_key(first.text)] = \
                     EventParser._format_text(second.text)
 
+        # The above is generated dynamically, it might be missing field names
+        # I want to add those missing names back in, if they're missing
+        if 'qualifies_as' not in info:
+            info['qualifies_as'] = ''
+        if 'advanced_registration' not in info:
+            info['advanced_registration'] = ''
+        if 'more_information' not in info:
+            info['more_information'] = ''
+
         return info
 
     @staticmethod
