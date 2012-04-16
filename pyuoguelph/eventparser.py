@@ -2,23 +2,18 @@
 #-*- coding: utf-8 -*-
 
 """This script is used for parsing event data from the University of Guelph
-Student Affairs website"""
+Student Affairs website."""
 
 import urllib2
 from datetime import datetime
 import re
 
-try:
-    from bs4 import BeautifulSoup
-except ImportError:
-    import sys
-    print("You must have Beautiful Soup >4.0 installed. Exiting...")
-    sys.exit(1)
+from bs4 import BeautifulSoup
 
 __author__ = "Nicholas Presta"
 __copyright__ = "Copyright 2011, The Pyuoguelph project"
 __license__ = "GPL"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __maintainer__ = "Nicholas Presta"
 __email__ = "nick@nickpresta.ca"
 
@@ -57,7 +52,7 @@ class EventParser(object):
         """Returns the event description for a given event.
 
         Returns:
-            Various pieces of information about a course.
+            Various pieces of information about an event.
             Keys are always present, regardless of the data existing or not.
 
         Arguments:

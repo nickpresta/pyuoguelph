@@ -12,5 +12,6 @@ setup(
     maintainer="Nick Presta",
     maintainer_email="nick@nickpresta.ca",
     url="https://github.com/NickPresta/pyuoguelph",
-    packages=['pyuoguelph', 'pyuoguelph.tests']
+    packages=['pyuoguelph', 'pyuoguelph.tests'],
+    install_requires=['bs4', 'requests'],
     )

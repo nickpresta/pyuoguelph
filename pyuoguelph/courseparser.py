@@ -1,18 +1,13 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-"""This script is used for parsing course data from the uoguelph.ca website"""
+"""This script is used for parsing course data from the uoguelph.ca website."""
 
 import urllib2
 from datetime import datetime
 import re
 
-try:
-    from bs4 import BeautifulSoup
-except ImportError:
-    import sys
-    print("You must have Beautiful Soup >4.0 installed. Exiting...")
-    sys.exit(1)
+from bs4 import BeautifulSoup
 
 __author__ = "Nicholas Presta"
 __copyright__ = "Copyright 2011, The Pyuoguelph project"

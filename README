@@ -1,5 +1,5 @@
 This library is to be used for parsing, searching, and scraping the uoguelph
-academic calendar as well as Student Affairs events.
+academic calendar, Student Affairs events, and Hospitality Services meal card balance.
 
 Here is an example of using the library:
 
@@ -48,4 +48,18 @@ This will fetch the event details and return a dictionary containing:
 * Maximum Attendance
 * Time
 * Date
+* Qualifies As
+* More Information
+* Advanced Registration
+
+To fetch your meal plan card balance:
+
+  from pyuoguelph import mealplanparser
+  mpp = mealplanparser.MealPlanParser('YOUR USERNAME HERE', 'YOUR PASSWORD HERE')
+  mpp.get_balance()
+
+You will get back a dictionary containing the meal plan type, and balance.
+
+* Meal Plan Type
+* Balance
 
