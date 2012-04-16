@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 __author__ = "Nicholas Presta"
 __copyright__ = "Copyright 2011, The Pyuoguelph project"
 __license__ = "GPL"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __maintainer__ = "Nicholas Presta"
 __email__ = "nick@nickpresta.ca"
 
