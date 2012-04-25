@@ -63,3 +63,10 @@ You will get back a dictionary containing the meal plan type, and balance.
 * Meal Plan Type
 * Balance
 
+To fetch class/schedule information:
+
+  from pyuoguelph import scheduleparser
+  sp = scheduleparser.ScheduleParser()
+  sp.get_schedule(data)
+
+
