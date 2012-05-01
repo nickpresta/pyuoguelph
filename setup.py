@@ -6,7 +6,7 @@ from distutils.core import setup
 setup(
     name="pyuoguelph",
     license="BSD",
-    version="0.0.6",
+    version="0.0.7",
     description="Python bindings to University of Guelph services",
     author="Nick Presta",
     maintainer="Nick Presta",

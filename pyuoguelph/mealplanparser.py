@@ -68,8 +68,8 @@ class MealPlanParser(object):
         soup = BeautifulSoup(source, 'html5lib')
 
         info = {}
-        info['type'] = 'Awesome Meal Plan'
-        info['balance'] = '1234.00'
+        info['type'] = ''
+        info['balance'] = ''
 
         table = soup.findAll('table', attrs={'border': '0', 'width': '100%'})[1]
         # Skip first header row
