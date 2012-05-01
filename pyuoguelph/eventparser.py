@@ -59,7 +59,7 @@ class EventParser(object):
             The HTML source for a given event.
         """
 
-        soup = BeautifulSoup(source)
+        soup = BeautifulSoup(source, 'html5lib')
 
         info = {}
 

@@ -83,7 +83,7 @@ class CourseParser(object):
             The HTML source for a given course.
         """
 
-        soup = BeautifulSoup(source)
+        soup = BeautifulSoup(source, 'html5lib')
 
         info = {}
 

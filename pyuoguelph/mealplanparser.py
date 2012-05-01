@@ -8,7 +8,7 @@ import urllib2
 from datetime import datetime
 import re
 
-#from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import requests
 
 __author__ = "Nicholas Presta"
@@ -65,13 +65,12 @@ class MealPlanParser(object):
             The HTML source for an account balance page.
         """
 
-        # soup = BeautifulSoup(source)
+        soup = BeautifulSoup(source, 'html5lib')
 
         info = {}
         info['type'] = 'Awesome Meal Plan'
         info['balance'] = '1234.00'
 
-        """
         table = soup.findAll('table', attrs={'border': '0', 'width': '100%'})[1]
         # Skip first header row
         # Should only loop once, but I can't test this
@@ -81,7 +80,6 @@ class MealPlanParser(object):
             info['type'] = first.text.strip()
             info['balance'] = MealPlanParser._format_text(second.text)
 
-        """
         return info
 
     @staticmethod
